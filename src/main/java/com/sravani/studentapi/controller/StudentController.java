@@ -17,6 +17,7 @@ import com.sravani.studentapi.mapper.StudentMapper;
 import com.sravani.studentapi.dto.StudentRequestDTO;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class StudentController {
 
 
@@ -27,6 +28,7 @@ public class StudentController {
     {
         this.studentService=studentService;
     }
+
 
     @GetMapping("/students")
     public ResponseEntity<List<StudentResponseDTO>> getStudents()
@@ -88,14 +90,15 @@ public class StudentController {
     }
 
     @PutMapping("/students/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @Valid @RequestBody Student updatedStudent)
+    public ResponseEntity<StudentResponseDTO> updateStudent(@PathVariable Long id, @Valid @RequestBody StudentRequestDTO studentRequestDTO)
     {
+        Student updatedStudent=StudentMapper.toEntity(studentRequestDTO);
         Student student=studentService.updateStudent(id,updatedStudent);
         if(student==null)
         {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(student);
+        return ResponseEntity.ok(StudentMapper.toDTO(student));
     }
 
     @DeleteMapping("/students/{id}")
