@@ -17,7 +17,10 @@ import com.sravani.studentapi.mapper.StudentMapper;
 import com.sravani.studentapi.dto.StudentRequestDTO;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://student-management-frontend-nine-delta.vercel.app"
+})
 public class StudentController {
 
 

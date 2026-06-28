@@ -6,7 +6,10 @@ import com.sravani.studentapi.service.AIService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://student-management-frontend-nine-delta.vercel.app"
+})
 @RequestMapping("/ai")
 public class AIController {
 
