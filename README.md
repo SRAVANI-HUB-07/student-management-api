@@ -1,58 +1,21 @@
-# Student Management API
+# Student Management System – Backend API
 
-A backend REST API built with **Java** and **Spring Boot** to learn modern backend software engineering concepts, including RESTful API development, layered architecture, MySQL database integration, and AI-powered features using the **OpenAI Java SDK**.
+A RESTful backend application built with **Java 21**, **Spring Boot**, and **MySQL** for managing student records and generating AI-powered personalized study recommendations using the **OpenAI Java SDK**.
 
-This project serves as the backend for a Student Management System and provides CRUD operations for managing students, along with an AI feature that generates personalized study plans based on a student's interests and learning goals.
-
----
-
-# Project Purpose
-
-The primary goal of this project is to strengthen backend development fundamentals by implementing a real-world Spring Boot application from scratch.
-
-This project focuses on understanding:
-
-* REST API Development
-* Spring Boot Architecture
-* Controller → Service → Repository Architecture
-* DTO (Data Transfer Object) Pattern
-* Request Validation
-* Exception Handling
-* Database Integration with MySQL
-* HTTP Request & Response Lifecycle
-* JSON Serialization & Deserialization
-* AI Integration using the OpenAI Java SDK
-
-Rather than simply making the application work, this project was built to understand how each layer of a backend application communicates internally.
+The application follows a layered architecture and demonstrates modern backend development practices including REST API design, DTOs, validation, exception handling, database persistence, Docker containerization, and cloud deployment.
 
 ---
 
-# Technologies Used
+# Project Overview
 
-## Backend
+This backend powers a Student Management System by providing APIs to:
 
-* Java 21
-* Spring Boot
-* Spring Web
-* Spring Data JPA
-* Hibernate
-* Maven
+- Manage student records
+- Store student data in MySQL
+- Generate personalized AI study recommendations
+- Support a React frontend through REST APIs
 
-## Database
-
-* MySQL
-
-## AI Integration
-
-* OpenAI Java SDK
-* OpenAI Chat Completions API
-
-## Development Tools
-
-* IntelliJ IDEA
-* Postman
-* Git
-* GitHub
+The project is designed with separation of concerns using Controller, Service, and Repository layers, making it scalable and maintainable.
 
 ---
 
@@ -60,69 +23,97 @@ Rather than simply making the application work, this project was built to unders
 
 ## Student Management
 
-* Add Student
-* View All Students
-* Search Students by Name
-* Update Student
-* Delete Student
+- Add Student
+- Retrieve All Students
+- Search Students by Name
+- Update Student Information
+- Delete Student Records
 
-## Backend Features
+## AI Recommendation
 
-* RESTful API Design
-* Layered Architecture
-* DTO-based Request & Response Models
-* Input Validation
-* Exception Handling
-* MySQL Persistence using Spring Data JPA
+Generate personalized study plans based on:
 
-## AI Study Plan Generator
+- Student Name
+- Area of Interest
+- Skill Level
+- Weekly Study Hours
 
-Generate a personalized four-week study plan based on:
-
-* Student Name
-* Area of Interest
-* Skill Level
-* Weekly Study Hours
-
-The backend sends a prompt to the OpenAI API and returns an AI-generated study plan to the frontend.
+The backend sends a structured prompt to the OpenAI API and returns an AI-generated recommendation.
 
 ---
 
-# Project Architecture
+# Technology Stack
+
+## Backend
+
+- Java 21
+- Spring Boot
+- Spring Web
+- Spring Data JPA
+- Hibernate
+- Maven
+
+## Database
+
+- MySQL
+
+## AI
+
+- OpenAI Java SDK
+- OpenAI Chat Completions API
+
+## Deployment
+
+- Docker
+- Render
+- Railway
+
+## Development Tools
+
+- IntelliJ IDEA
+- Postman
+- Git
+- GitHub
+- MySQL Workbench
+
+---
+
+# Backend Architecture
 
 ```text
-Client (React)
-
-        │
-        ▼
-
+React Frontend
+       │
+       ▼
 REST API (Spring Boot)
-
-        │
-
+       │
+       ▼
 Controller
-        │
-        ▼
+       │
+       ▼
 Service
-        │
-        ▼
+       │
+       ▼
 Repository
-        │
-        ▼
+       │
+       ▼
 MySQL Database
+```
 
+### AI Recommendation Flow
 
-AI Recommendation
-
-Controller
-        │
-        ▼
+```text
+Client
+   │
+   ▼
+AI Controller
+   │
+   ▼
 AI Service
-        │
-        ▼
+   │
+   ▼
 OpenAI Java SDK
-        │
-        ▼
+   │
+   ▼
 OpenAI API
 ```
 
@@ -139,8 +130,10 @@ src
     │       ├── dto
     │       ├── entity
     │       ├── exception
+    │       ├── mapper
     │       ├── repository
-    │       └── service
+    │       ├── service
+    │       └── config
     │
     └── resources
         ├── application.properties
@@ -153,105 +146,132 @@ src
 
 ## Student APIs
 
-| Method | Endpoint                | Description                |
-| ------ | ----------------------- | -------------------------- |
-| GET    | `/students`             | Retrieve all students      |
-| GET    | `/students/name/{name}` | Search students by name    |
-| POST   | `/students`             | Create a new student       |
-| PUT    | `/students/{id}`        | Update an existing student |
-| DELETE | `/students/{id}`        | Delete a student           |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/students` | Retrieve all students |
+| GET | `/students/name/{name}` | Search students by name |
+| POST | `/students` | Add a student |
+| PUT | `/students/{id}` | Update a student |
+| DELETE | `/students/{id}` | Delete a student |
 
 ---
 
 ## AI API
 
-| Method | Endpoint             | Description                                    |
-| ------ | -------------------- | ---------------------------------------------- |
-| POST   | `/ai/recommendation` | Generate an AI-powered personalized study plan |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/ai/recommendation` | Generate an AI-powered study recommendation |
 
 ---
 
 # Running the Application
 
-## 1. Clone the repository
+## Clone the Repository
 
 ```bash
 git clone https://github.com/SRAVANI-HUB-07/student-management-api.git
+cd student-management-api
 ```
 
 ---
 
-## 2. Configure MySQL
+## Configure Environment Variables
 
-Create a MySQL database.
-
-Update `application.properties` using the provided `application-example.properties`.
-
-Example:
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/student_db
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
-```
-
----
-
-## 3. Configure the OpenAI API Key
-
-Set the following environment variable:
+Create a `.env` file:
 
 ```text
-OPENAI_API_KEY=YOUR_API_KEY
+SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/student_db
+SPRING_DATASOURCE_USERNAME=YOUR_USERNAME
+SPRING_DATASOURCE_PASSWORD=YOUR_PASSWORD
+OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+```
+
+The repository includes an `application-example.properties` file as a reference.
+
+---
+
+## Build
+
+```bash
+./mvnw clean install
 ```
 
 ---
 
-## 4. Run the Spring Boot Application
+## Run
 
-Run the application from IntelliJ IDEA or using Maven.
+```bash
+./mvnw spring-boot:run
+```
 
-The backend will start on:
+The backend starts on:
 
-```text
+```
 http://localhost:8080
+```
+
+---
+
+# Running with Docker
+
+Build the Docker image:
+
+```bash
+docker build -t student-api .
+```
+
+Run the container:
+
+```bash
+docker run --env-file .env -p 8080:8080 student-api
 ```
 
 ---
 
 # Security
 
-Sensitive configuration files containing credentials are intentionally excluded from version control.
+Sensitive configuration files are excluded from version control.
 
-The repository includes an `application-example.properties` file that can be copied and updated with local configuration values.
+The repository does **not** contain:
 
----
+- Database credentials
+- OpenAI API Key
+- Local environment configuration
 
-# Future Improvements
+Use:
 
-* JWT Authentication
-* Role-Based Authorization
-* Swagger / OpenAPI Documentation
-* Pagination & Sorting
-* Docker Support
-* AWS Deployment
-* Unit & Integration Testing
-* File Upload Support
+- `.env`
+- `application-example.properties`
+
+to configure the application locally.
 
 ---
 
-# Learning Outcomes
+# Future Enhancements
 
-This project strengthened my understanding of:
+- JWT Authentication
+- Role-Based Authorization
+- Swagger / OpenAPI Documentation
+- Pagination & Sorting
+- Unit & Integration Testing
+- File Upload Support
+- AWS Deployment
+- CI/CD Pipeline
 
-* Java Backend Development
-* Spring Boot
-* Layered Architecture
-* REST API Design
-* DTO Pattern
-* Spring Data JPA & Hibernate
-* MySQL Integration
-* HTTP Communication
-* JSON Processing
-* AI Integration using the OpenAI Java SDK
-* Git & GitHub Workflow
+---
+
+# Related Repository
+
+Frontend (React)
+
+https://github.com/SRAVANI-HUB-07/student-management-frontend
+
+---
+
+# Author
+
+**Sravani Mamidi**
+
+Master of Science in Computer Science
+
+Java • Spring Boot • REST APIs • MySQL • AI Integration
